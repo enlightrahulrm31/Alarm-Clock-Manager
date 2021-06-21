@@ -15,6 +15,22 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectdatetext"
+        android:text="update"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40dp"/>
+    <Button
+        android:id="@+id/selectdate"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginHorizontal="26dp"
+        android:text="Select Date"
+        android:textSize="26dp"/>
     <Button
         android:id="@+id/selecttime"
         android:layout_width="match_parent"

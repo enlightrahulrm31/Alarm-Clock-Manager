@@ -12,18 +12,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.alarmmanager.databinding.ActivityMainBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.MaterialStyledDatePickerDialog
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.MonthDay
+import java.time.Year
 import java.util.*
+import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()  {
     private  lateinit var  binding :ActivityMainBinding
     private  lateinit var picker :MaterialTimePicker
     private  lateinit var calender : Calendar
     private  lateinit var alarmManager: AlarmManager
     private  lateinit var pendingIntent: PendingIntent
+    var curday: Int =1
+    var curmonthDay: Int =1
+    var curyear: Int =1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         createNotificationchannel()
+        binding.selectdate.setOnClickListener {
+            showDatePicker()
+        }
         binding.selecttime.setOnClickListener {
             showTimePicker()
 
@@ -45,6 +56,23 @@ class MainActivity : AppCompatActivity() {
             cancelAlarm()
 
         }
+
+    }
+
+    private fun showDatePicker() {
+        Toast.makeText(this,"date picker",Toast.LENGTH_LONG).show()
+        val cal  =Calendar.getInstance()
+        val year =cal.get(Calendar.YEAR)
+        val month =cal.get(Calendar.MONTH)
+        val date =cal.get(Calendar.DATE)
+          val  datepickerDialog = DatePickerDialog(this,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+              selectdatetext.text= "Date:" + dayOfMonth + "/" + (month+1) + "/" + year
+              curday= dayOfMonth
+              curmonthDay = month
+              curyear = year
+
+          },year,month,date)
+        datepickerDialog.show()
 
     }
 
@@ -104,11 +132,14 @@ class MainActivity : AppCompatActivity() {
 
             }
             calender = Calendar.getInstance()
+            calender[Calendar.DATE] = curday
+            calender[Calendar.MONTH] = curmonthDay
+            calender[Calendar.YEAR] = curyear
+            calender[Calendar.DATE] = curday
             calender[Calendar.HOUR_OF_DAY] = picker.hour
             calender[Calendar.MINUTE] = picker.minute
             calender[Calendar.SECOND] = 0
             calender[Calendar.MILLISECOND] = 0
-
         }
 
 
